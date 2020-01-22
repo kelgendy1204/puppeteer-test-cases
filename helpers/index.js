@@ -6,12 +6,12 @@ export async function login() {
     await page.setViewport({ width: 1920, height: 948 });
 
     await page.waitForSelector('.left-section-wrp > #login-form #input-signin-email');
-    await page.type('.left-section-wrp > #login-form #input-signin-email', process.env.USER_EMAIL);
+    await page.type('.left-section-wrp > #login-form #input-signin-email', process.env.SIGNIN_USER_EMAIL);
 
     await page.waitForSelector('.left-section-wrp > #login-form #input-signin-password');
     await page.type(
         '.left-section-wrp > #login-form #input-signin-password',
-        process.env.USER_PASSWORD
+        process.env.SIGNIN_USER_PASSWORD
     );
 
     await page.waitForSelector(
