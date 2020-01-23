@@ -8,7 +8,6 @@ describe('Login page', () => {
 
     it('Should sigin and go to explore', async () => {
         await login();
-
         expect(page.url()).toMatch(`${process.env.SITE_URL}/explore`);
     });
 });

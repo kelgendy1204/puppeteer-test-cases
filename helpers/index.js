@@ -5,19 +5,24 @@ export async function login() {
 
     await page.setViewport({ width: 1920, height: 948 });
 
-    await page.waitForSelector('.left-section-wrp > #login-form #input-signin-email');
-    await page.type('.left-section-wrp > #login-form #input-signin-email', process.env.SIGNIN_USER_EMAIL);
+    await page.waitForSelector('#login-form #input-signin-email');
+    await page.type('#login-form #input-signin-email', process.env.SIGNIN_USER_EMAIL);
 
-    await page.waitForSelector('.left-section-wrp > #login-form #input-signin-password');
+    await page.waitForSelector('#login-form #input-signin-password');
     await page.type(
-        '.left-section-wrp > #login-form #input-signin-password',
+        '#login-form #input-signin-password',
         process.env.SIGNIN_USER_PASSWORD
     );
 
     await page.waitForSelector(
-        '.content-card > .col-sm-6 > .left-section-wrp > #login-form > .btn'
+        '#login-form > .btn'
     );
-    await page.click('.content-card > .col-sm-6 > .left-section-wrp > #login-form > .btn');
+    await page.click('#login-form > .btn');
 
     await navigationPromise;
+}
+
+export async function getToken() {
+    const cookies = await page.cookies();
+    return cookies.find(({ name }) => name === 'user_access_token').value;
 }
