@@ -1,4 +1,7 @@
-export async function login() {
+export async function login(
+    email = process.env.SIGNIN_USER_EMAIL,
+    password = process.env.SIGNIN_USER_PASSWORD
+) {
     await page.goto(`${process.env.SITE_URL}/login`);
 
     const navigationPromise = page.waitForNavigation();
@@ -6,17 +9,12 @@ export async function login() {
     await page.setViewport({ width: 1920, height: 948 });
 
     await page.waitForSelector('#login-form #input-signin-email');
-    await page.type('#login-form #input-signin-email', process.env.SIGNIN_USER_EMAIL);
+    await page.type('#login-form #input-signin-email', email);
 
     await page.waitForSelector('#login-form #input-signin-password');
-    await page.type(
-        '#login-form #input-signin-password',
-        process.env.SIGNIN_USER_PASSWORD
-    );
+    await page.type('#login-form #input-signin-password', password);
 
-    await page.waitForSelector(
-        '#login-form > .btn'
-    );
+    await page.waitForSelector('#login-form > .btn');
     await page.click('#login-form > .btn');
 
     await navigationPromise;

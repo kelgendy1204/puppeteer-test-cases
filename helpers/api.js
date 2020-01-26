@@ -30,9 +30,7 @@ const createAPI = (baseURL, authToken, jsonAPI = false) => {
     return instance;
 };
 
-async function getAPI() {
+export async function getAPI() {
     const token = await getToken();
     return createAPI(process.env.API_URL, token, true);
 }
-
-export { getAPI };
