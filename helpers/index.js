@@ -1,10 +1,12 @@
 import { getAPI } from './api';
 
-export async function login(
+export const login = (
+    page
+) => async (
     email = process.env.SIGNIN_USER_EMAIL,
     password = process.env.SIGNIN_USER_PASSWORD
-) {
-    await page.goto(`${process.env.SITE_URL}/login`);
+) => {
+    await page.goto(`${process.env.SITE_URL}/login`, { waitUntil: 'domcontentloaded' });
 
     const navigationPromise = page.waitForNavigation();
 
@@ -22,11 +24,13 @@ export async function login(
     await navigationPromise;
 }
 
-export async function signup(
+export const signup = (
+    page
+) => async (
     email = process.env.SIGNUP_USER_EMAIL,
     password = process.env.SIGNUP_USER_PASSWORD
-) {
-    await page.goto(`${process.env.SITE_URL}/signup/joinow`);
+) => {
+    await page.goto(`${process.env.SITE_URL}/signup/joinow`, { waitUntil: 'domcontentloaded' });
 
     const navigationPromise = page.waitForNavigation();
 
@@ -53,8 +57,8 @@ export async function signup(
     await navigationPromise;
 }
 
-export async function cleanCurrentUser() {
-    const API = await getAPI();
+export async function cleanCurrentUser(page) {
+    const API = await getAPI(page);
     await API.delete('/talent', {
         data: {
             data: {
@@ -67,7 +71,7 @@ export async function cleanCurrentUser() {
     });
 }
 
-export async function getToken() {
+export async function getToken(page) {
     const cookies = await page.cookies();
     return cookies.find(({ name }) => name === 'user_access_token').value;
 }

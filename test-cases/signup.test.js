@@ -1,14 +1,24 @@
+import puppeteer from 'puppeteer';
 import { signup, cleanCurrentUser } from '../helpers';
 
 describe('Signup page', () => {
-    it('Should be titled "Sign Up | WUZZUF"', async () => {
-        await page.goto(`${process.env.SITE_URL}/signup/joinow`);
-        await expect(page.title()).resolves.toMatch('Sign Up | WUZZUF');
+    let browser;
+    let page;
+
+    beforeAll(async () => {
+        browser = await puppeteer.launch({
+            headless: true
+        });
+        page = await browser.newPage();
+    });
+
+    afterAll(() => {
+        browser.close();
     });
 
     it('Should sigup and go to career interests', async () => {
-        await signup();
+        await signup(page)();
         expect(page.url()).toMatch(`${process.env.SITE_URL}/setup`);
-        await cleanCurrentUser();
+        await cleanCurrentUser(page);
     });
 });
